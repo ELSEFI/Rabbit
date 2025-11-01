@@ -10,13 +10,14 @@ import { ProductDetails } from "./Components/Products/ProductDetails";
 import { Checkout } from "./Components/Cart/Checkout";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { OrderConfirmationPage } from "./pages/OrderConfirmationPage";
+import { MyOrder } from "./pages/MyOrder";
+import { OrderDetailsPage } from "./pages/OrderDetailsPage";
 
 const App = () => {
   return (
     <PayPalScriptProvider
       options={{
-        "client-id":
-          "AQMXlLj7WF3wOoUvBEuQ1Y9aAxukF8ieXzHoE4dDL2UrBN7GFvbiVWfVmk5v0cWmhxHTbirVEaWyatvo",
+        "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
         currency: "USD",
       }}
     >
@@ -34,7 +35,12 @@ const App = () => {
             />
             <Route path="product/:id" element={<ProductDetails />} />
             <Route path="checkout" element={<Checkout />} />
-            <Route path="order-confirmation" element={<OrderConfirmationPage />} />
+            <Route
+              path="order-confirmation"
+              element={<OrderConfirmationPage />}
+            />
+            <Route path="/order/:id" element={<OrderDetailsPage />} />
+            <Route path="/my-orders" element={<MyOrder />} />
           </Route>
 
           <Route>{/* Admin Layout */}</Route>
