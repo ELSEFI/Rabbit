@@ -12,6 +12,8 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { OrderConfirmationPage } from "./pages/OrderConfirmationPage";
 import { MyOrder } from "./pages/MyOrder";
 import { OrderDetailsPage } from "./pages/OrderDetailsPage";
+import { AdminLayout } from "./Components/Admin/AdminLayout";
+import { AdminHomePage } from "./pages/AdminHomePage";
 
 const App = () => {
   return (
@@ -43,7 +45,9 @@ const App = () => {
             <Route path="/my-orders" element={<MyOrder />} />
           </Route>
 
-          <Route>{/* Admin Layout */}</Route>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminHomePage />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </PayPalScriptProvider>
