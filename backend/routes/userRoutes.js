@@ -46,5 +46,7 @@ router.post("/register", async (req, res) => {
 });
 
 // POSTING ROUTE /api/users/login (authenticate user) "PUBLIC ACCESSING"
-router.
+router.post("/login", async(req, res) => {
+  const user
+})
 module.exports = router;
