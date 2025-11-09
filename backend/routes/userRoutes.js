@@ -47,6 +47,7 @@ router.post("/register", async (req, res) => {
 
 // POSTING ROUTE /api/users/login (authenticate user) "PUBLIC ACCESSING"
 router.post("/login", async(req, res) => {
-  const user
+  const {email, password} = req.body
+  await
 })
 module.exports = router;
