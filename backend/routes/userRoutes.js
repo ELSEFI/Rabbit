@@ -46,8 +46,11 @@ router.post("/register", async (req, res) => {
 });
 
 // POSTING ROUTE /api/users/login (authenticate user) "PUBLIC ACCESSING"
-router.post("/login", async(req, res) => {
-  const {email, password} = req.body
-  await
-})
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+  } catch (err) {
+    let user = await User.findOne({ email });
+  }
+});
 module.exports = router;
