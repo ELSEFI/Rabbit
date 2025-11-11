@@ -49,13 +49,39 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-  } catch (err) {
     let user = await User.findOne({ email });
-    if (!user) {
-      res.status(400).json({
-        massage: "Wrong Email or Password",
-      });
-    }
+    if (!user)
+      return res.status(400).json({ massage: "Wrong Email or Password" });
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch)
+      return res.status(400).json({ massage: "Wrong Email or Password" });
+
+    // CREATE JWT PAYLOAD
+    const payload = { user: { id: user._id, role: user.role } };
+
+    // SIGN AND RETURN THE TOKEN ALONG WITH USER DATA
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: "40h" },
+      (err, token) => {
+        if (err) throw err;
+
+        // SEND THE USER AND TOKEN IN RESPONSE
+        res.json({
+          user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          },
+          token,
+        });
+      }
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
   }
 });
 module.exports = router;
