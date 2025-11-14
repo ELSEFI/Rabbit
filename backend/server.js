@@ -6,6 +6,7 @@ const app = express();
 const connectDB = require("./config/db");
 // === ROUTES === //
 const userRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/ProductRoutes");
 // === ROUTES === //
 
 app.use(express.json());
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 
 // API ROUTES
 app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server Running on http://localhost:${PORT}`);
