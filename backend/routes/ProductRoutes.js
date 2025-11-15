@@ -239,19 +239,16 @@ router.get("/best-seller", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
-// ROUTE GET /api/products/:id GET SINGLE PRODUCT (PUBLIC)
-router.get("/:id", async (req, res) => {
+// ROUTE GET /api/products/new-arrivals GET LATEST 8 PRODUCTS BY CREATION DATE (PUBLIC)
+router.get("/new-arrivals", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
-    if (product) {
-      res.json(product);
-    } else {
-      res.status(404).json({ message: "Product Not Found" });
-    }
+    const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(8);
+    if (newArrivals.length === 0)
+      return res.status(404).json({ message: "No New Arrivals Found" });
+    res.json(newArrivals);
   } catch (error) {
     console.error(error);
-    res.status(500).send("ServerError");
+    res.status(500).send("Server Error");
   }
 });
 
@@ -274,6 +271,20 @@ router.get("/similar/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
+  }
+});
+// ROUTE GET /api/products/:id GET SINGLE PRODUCT (PUBLIC)
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      res.json(product);
+    } else {
+      res.status(404).json({ message: "Product Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("ServerError");
   }
 });
 
