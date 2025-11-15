@@ -224,4 +224,21 @@ router.get("/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// ROUTE GET /api/products/:id GET SINGLE PRODUCT (PUBLIC)
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      res.json(product);
+    } else {
+      res.status(404).json({ message: "Product Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("ServerError");
+  }
+});
+
+
 module.exports = router;
