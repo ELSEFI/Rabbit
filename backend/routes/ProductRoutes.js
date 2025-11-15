@@ -225,6 +225,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+// ROUTE GET /api/products/best-seller GET PRODUCT WITH HIGHEST RATING (PUBLIC)
+router.get("/best-seller", async (req, res) => {
+  try {
+    const bestSeller = await Product.find().sort({ rating: -1 }).limit(1);
+    if (bestSeller) {
+      res.json(bestSeller);
+    } else {
+      res.status(404).json({ message: "No Best Seller Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+
 // ROUTE GET /api/products/:id GET SINGLE PRODUCT (PUBLIC)
 router.get("/:id", async (req, res) => {
   try {
@@ -261,6 +276,5 @@ router.get("/similar/:id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
 
 module.exports = router;
