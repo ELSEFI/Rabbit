@@ -152,4 +152,20 @@ router.delete("/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// ROUTE GET /api/cart GET CART FOR A GUEST OR LOGGED-IN USER (PUBLIC)
+router.get("/", async (req, res) => {
+  const { userId, guestId } = req.query;
+  try {
+    const cart = getCart(userId, guestId);
+    if (cart) {
+      res.json(cart);
+    } else {
+      res.status(404).json({ message: "Cart Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
 module.exports = router;
