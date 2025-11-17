@@ -206,7 +206,7 @@ router.post("/merge", protect, async (req, res) => {
 
         // REMOVE THE GUEST CART AFTER MERGING
         try {
-          await Cart.findByIdAndDelete({ guestId });
+          await Cart.findOneAndDelete({ guestId });
         } catch (error) {
           console.error("Error Deleting Guest Cart: ", error);
           res.status(500).send("Server Error");
