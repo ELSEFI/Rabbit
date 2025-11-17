@@ -104,4 +104,4 @@ router.post("/:id/finalize", protect, async (req, res) => {
   }
 });
 
-model.exports = router;
+module.exports = router;
