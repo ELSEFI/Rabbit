@@ -30,7 +30,7 @@ const checkoutSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    checkoutSchema: [checkoutItemSchema],
+    checkoutItems: [checkoutItemSchema],
     shippingAddress: {
       address: {
         type: String,
