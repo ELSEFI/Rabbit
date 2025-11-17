@@ -1,5 +1,5 @@
 const express = require("express");
-const checkout = require("../models/Checkout");
+const Checkout = require("../models/Checkout");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const Order = require("../models/Order");
@@ -30,6 +30,34 @@ route.post("/", protect, async (req, res) => {
     res.status(201).json(newCheckout);
   } catch (error) {
     console.error("Error Creating Checkout Session", error);
+    res.status(500).send("Server Error");
+  }
+});
+
+// ROUTE PUT /api/checkout/:id/pay UPDATE CHECKOUT TO MARK AS PAID AFTER SUCCESSFUL PAYMENT (PRIVATE)
+
+route.put("/:id/pay", protect, async (req, res) => {
+  const { paymentStatus, paymentDetails } = req.body;
+
+  try {
+    const checkout = await Checkout.findById(req.params.id);
+
+    if (!checkout) {
+      return res.status(404).json({ message: "Checkout Not Found" });
+    }
+    if (paymentStatus === "paid") {
+      checkout.isPaid = true;
+      checkout.paymentStatus = paymentStatus;
+      checkout.paymentDetails = paymentDetails;
+      checkout.paidAt = Date.now();
+      await checkout.save();
+
+      res.status(200).json(checkout);
+    } else {
+      res.status(400).json({ message: "Invalid Payment Status" });
+    }
+  } catch (error) {
+    console.error(error);
     res.status(500).send("Server Error");
   }
 });

@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/ProductRoutes");
 const cartRoutes = require("./routes/CartRoutes");
+const checkoutRoutes = require("./routes/checkoutRoutes");
 // === ROUTES === //
 
 app.use(express.json());
