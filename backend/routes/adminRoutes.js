@@ -32,4 +32,22 @@ router.post("/", protect, admin, async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+
+// ROUTE PUT api/admin/users/:id UPDATE USER INFO (ADMIN ONLY) (PRIVATE/ADMIN)
+router.put("/:id", protect, admin, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(400).json({ message: "User Not Founded" });
+
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.role = req.body.role || user.role;
+    const updatedUser = await user.save();
+    res.json({ message: "User Updated Successfully", user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
 module.exports = router;
