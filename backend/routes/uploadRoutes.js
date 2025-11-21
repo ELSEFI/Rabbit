@@ -3,7 +3,7 @@ const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");
 
-require("dotenv").config;
+require("dotenv").config();
 const router = express.Router();
 // CLOUDINARY CONFIGURATION
 cloudinary.config({
@@ -14,7 +14,14 @@ cloudinary.config({
 
 // MULTER SETUP USING MEMORY STORAGE
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only Images are allowed"), false);
+  },
+});
 
 router.post("/", upload.single("image"), async (req, res) => {
   try {
