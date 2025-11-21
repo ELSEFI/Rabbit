@@ -3,7 +3,7 @@ const Subscriber = require("../models/Subscriber");
 const router = express.Router();
 
 // ROUTE POST api/subscribe HANDLE NEWSLETTER SUBSCRIPTION (PUBLIC)
-router.post("/subscribe", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: "Email Is Required" });
@@ -23,3 +23,5 @@ router.post("/subscribe", async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+
+module.exports = router;
