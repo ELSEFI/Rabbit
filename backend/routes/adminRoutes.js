@@ -50,4 +50,17 @@ router.put("/:id", protect, admin, async (req, res) => {
   }
 });
 
+// ROUTE DELETE api/admin/users/:id DELETE USER (ADMIN ONLY) (PRIVATE/ADMIN)
+router.delete("/:id", protect, admin, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(400).json({ message: "User Not Founded" });
+
+    await user.deleteOne();
+    res.status(201).json({ message: "User Deleted Successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
 module.exports = router;
